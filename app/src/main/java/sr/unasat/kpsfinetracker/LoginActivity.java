@@ -1,81 +1,89 @@
 package sr.unasat.kpsfinetracker;
-
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import sr.unasat.kpsfinetracker.repositories.UserRepository;
+import sr.unasat.kpsfinetracker.activity.SignUPActivity;
+import sr.unasat.kpsfinetracker.databases.LoginDataBaseAdapter;
 
 public class LoginActivity extends AppCompatActivity {
-    UserRepository userRepo;
-    private EditText usernameTxt;
-    private EditText passwordTxt;
-    private Button loginBtn;
-    private CheckBox showPasswordChexkBox;
+    Button loginbtn,registerbtn;
+
+    LoginDataBaseAdapter loginDataBaseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        usernameTxt = (EditText)findViewById(R.id.usernameTxt);
-        passwordTxt = (EditText)findViewById(R.id.passwordTxt);
-        loginBtn = (Button)findViewById(R.id.loginBtn);
-        showPasswordChexkBox = (CheckBox)findViewById(R.id.showPaswCheckBox);
-        userRepo = new UserRepository(this);
+// create a instance of SQLite Database
+        loginDataBaseAdapter=new LoginDataBaseAdapter(this);
+        loginDataBaseAdapter=loginDataBaseAdapter.open();
 
-        showPasswordChexkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked){
-                    passwordTxt.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }else {
-                    passwordTxt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                }
-            }
-        });
+// Get The Refference Of Buttons
+        loginbtn=(Button)findViewById(R.id.loginBtn);
+        registerbtn=(Button)findViewById(R.id.register_button);
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
+// Set OnClick Listener on SignUp button
+        registerbtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (usernameTxt.length() != 0 && passwordTxt.length() != 0) {
-                    validate(usernameTxt.getText().toString(), passwordTxt.getText().toString());
-                }
-                else{
-                    toastMessageMaker("Please make sure you fill in both fields", false);
-                }
+
+
+/// Create Intent for SignUpActivity abd Start The Activity
+                Intent intentSignUP=new Intent(getApplicationContext(), SignUPActivity.class);
+                startActivity(intentSignUP);
             }
         });
     }
+    // Methos to handleClick Event of Sign In Button
+    public void signIn(View V)
+    {
+        final Dialog dialog = new Dialog(LoginActivity.this);
+        dialog.setContentView(R.layout.activity_login);
+        dialog.setTitle("Login");
 
-    private void validate(String userName, String userPassword) {
-        boolean validation = userRepo.validateLogin(userName, userPassword);
+// get the Refferences of views
+        final EditText editTextUserName=(EditText)dialog.findViewById(R.id.usernameTxt);
+        final EditText editTextPassword=(EditText)dialog.findViewById(R.id.passwordTxt);
 
-        if (validation) {
-            toastMessageMaker("You have successfully logged in!", true);
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-        } else {
-            toastMessageMaker("Something went wrong!", false);
-        }
+        Button btnSignIn=(Button)dialog.findViewById(R.id.loginBtn);
+
+// Set On ClickListener
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+// get The User name and Password
+                String userName=editTextUserName.getText().toString();
+                String password=editTextPassword.getText().toString();
+
+// fetch the Password form database for respective user name
+                String storedPassword=loginDataBaseAdapter.getSinlgeEntry(userName);
+
+// check if the Stored password matches with Password entered by user
+                if(password.equals(storedPassword))
+                {
+                    Toast.makeText(LoginActivity.this, "Congrats: Login Successfull", Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }
+                else
+                {
+                    Toast.makeText(LoginActivity.this, "User Name or Password does not match", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        dialog.show();
     }
-
-    private void toastMessageMaker(String message, boolean fast){
-        if (fast) {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+// Close The Database
+        loginDataBaseAdapter.close();
     }
-
-
 }
