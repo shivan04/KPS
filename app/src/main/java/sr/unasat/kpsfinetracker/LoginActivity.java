@@ -3,6 +3,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,14 +33,8 @@ protected void onCreate(Bundle savedInstanceState){
         btn_llogin = (Button)findViewById(R.id.loginBtn);
         btn_lregister = (Button)findViewById(R.id.register_button);
 
-        btn_lregister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
-        btn_llogin.setOnClickListener(new View.OnClickListener() {
+
+        btn_llogin.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = et_lusername.getText().toString();
@@ -51,6 +46,13 @@ protected void onCreate(Bundle savedInstanceState){
                 }else{
                     Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        btn_lregister.setOnClickListener(new OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
     }
