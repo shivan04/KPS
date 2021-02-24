@@ -1,5 +1,5 @@
 package sr.unasat.kpsfinetracker;
-import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,81 +9,50 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import sr.unasat.kpsfinetracker.activity.SignUPActivity;
-import sr.unasat.kpsfinetracker.databases.LoginDataBaseAdapter;
+import java.util.ArrayList;
+import java.util.List;
+
+import sr.unasat.kpsfinetracker.databases.DatabaseHelper;
+import sr.unasat.kpsfinetracker.entities.User;
 
 public class LoginActivity extends AppCompatActivity {
-    Button loginbtn,registerbtn;
+    Button btn_lregister, btn_llogin;
+    EditText et_lusername, et_lpassword;
 
-    LoginDataBaseAdapter loginDataBaseAdapter;
-
+    DatabaseHelper databaseHelper;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+protected void onCreate(Bundle savedInstanceState){
+    super.onCreate (savedInstanceState);
+    setContentView (R.layout.activity_login);
 
-// create a instance of SQLite Database
-        loginDataBaseAdapter=new LoginDataBaseAdapter(this);
-        loginDataBaseAdapter=loginDataBaseAdapter.open();
+    databaseHelper = new DatabaseHelper (this);
+        et_lusername = (EditText)findViewById(R.id.usernameTxt);
+        et_lpassword = (EditText)findViewById(R.id.passwordTxt);
 
-// Get The Refference Of Buttons
-        loginbtn=(Button)findViewById(R.id.loginBtn);
-        registerbtn=(Button)findViewById(R.id.register_button);
+        btn_llogin = (Button)findViewById(R.id.loginBtn);
+        btn_lregister = (Button)findViewById(R.id.register_button);
 
-// Set OnClick Listener on SignUp button
-        registerbtn.setOnClickListener(new View.OnClickListener() {
+        btn_lregister.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-
-
-/// Create Intent for SignUpActivity abd Start The Activity
-                Intent intentSignUP=new Intent(getApplicationContext(), SignUPActivity.class);
-                startActivity(intentSignUP);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
-    }
-    // Methos to handleClick Event of Sign In Button
-    public void signIn(View V)
-    {
-        final Dialog dialog = new Dialog(LoginActivity.this);
-        dialog.setContentView(R.layout.activity_login);
-        dialog.setTitle("Login");
-
-// get the Refferences of views
-        final EditText editTextUserName=(EditText)dialog.findViewById(R.id.usernameTxt);
-        final EditText editTextPassword=(EditText)dialog.findViewById(R.id.passwordTxt);
-
-        Button btnSignIn=(Button)dialog.findViewById(R.id.loginBtn);
-
-// Set On ClickListener
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-
+        btn_llogin.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-// get The User name and Password
-                String userName=editTextUserName.getText().toString();
-                String password=editTextPassword.getText().toString();
+                String username = et_lusername.getText().toString();
+                String password = et_lpassword.getText().toString();
 
-// fetch the Password form database for respective user name
-                String storedPassword=loginDataBaseAdapter.getSinlgeEntry(userName);
-
-// check if the Stored password matches with Password entered by user
-                if(password.equals(storedPassword))
-                {
-                    Toast.makeText(LoginActivity.this, "Congrats: Login Successfull", Toast.LENGTH_LONG).show();
-                    dialog.dismiss();
-                }
-                else
-                {
-                    Toast.makeText(LoginActivity.this, "User Name or Password does not match", Toast.LENGTH_LONG).show();
+                Boolean checklogin = databaseHelper.CheckLogin(username, password);
+                if(checklogin == true){
+                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-        dialog.show();
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-// Close The Database
-        loginDataBaseAdapter.close();
     }
 }
+
