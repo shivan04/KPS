@@ -32,7 +32,7 @@ public class RegisterActivity extends Activity implements OnClickListener, OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register);
 
         lastnameField = (EditText) findViewById(R.id.lastname_text);
         firstnameField = (EditText) findViewById(R.id.firstname_text);
