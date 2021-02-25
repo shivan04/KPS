@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/KPS Fine Tracker-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/KPS Fine Tracker-app.iml" group="KPS Fine Tracker/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/KPS_Fine_Tracker.iml" filepath="$PROJECT_DIR$/.idea/modules/KPS_Fine_Tracker.iml" group="KPS_Fine_Tracker" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="KPS Fine Tracker/app" />
     </modules>
   </component>
 </project>
