@@ -4,35 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="239dp"
-        android:layout_height="103dp"
-        android:layout_marginStart="97dp"
-        android:layout_marginTop="403dp"
-        android:layout_marginEnd="96dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6">
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="242dp"
-            android:layout_height="108dp"
-            app:srcCompat="@drawable/kenteken" />
-
-        <EditText
-            android:id="@+id/kenteken_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:hint="Plate no."
-            android:inputType="textPersonName" />
-    </RelativeLayout>
+    tools:context=".MainActivity"
+    tools:ignore="MissingConstraints">
 
     <ImageView
         android:id="@+id/imageView6"
@@ -46,16 +19,44 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/wapen" />
 
-    <Button
-        android:id="@+id/search_button"
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="314dp"
+        android:layout_height="223dp"
+        android:layout_marginTop="131dp"
+        android:layout_marginBottom="72dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:srcCompat="@drawable/kenyek" />
+
+
+    <EditText
+        android:id="@+id/kenteken_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="169dp"
-        android:layout_marginTop="37dp"
-        android:layout_marginEnd="170dp"
-        android:text="search"
+        android:ems="10"
+        android:hint="Plate no."
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="264dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:layout_marginBottom="153dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView8"
+        app:srcCompat="@drawable/searchbtn" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
