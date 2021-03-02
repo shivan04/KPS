@@ -6,15 +6,30 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import sr.unasat.kpsfinetracker.fragments.LicencePlateFragment;
 import sr.unasat.kpsfinetracker.fragments.MissingPersonsListFragment;
 import sr.unasat.kpsfinetracker.fragments.MostWantedListFragment;
 import sr.unasat.kpsfinetracker.fragments.SectionsStatePagerAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
     private ViewPager mViewPager;
+
+    FloatingActionButton fabmain;
+    FloatingActionButton fabMain;
+    FloatingActionButton fab2;
+    FloatingActionButton fab1;
+    FloatingActionButton fab3;
+    Float translationY = 100f;
+    boolean isMenuOpen = true;
+    OvershootInterpolator interpolator = new OvershootInterpolator ();
+
+
+
 
     private static final String TAG = "MainActivity";
 
@@ -22,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         Log.d(TAG, "onCreate: Started.");
         mSectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
 
@@ -29,7 +46,96 @@ public class MainActivity extends AppCompatActivity {
         //setup the pager
         setupViewPager(mViewPager);
 
+        initFabMenu ();
+
     }
+    private void initFabMenu() {
+        fabMain = findViewById(R.id.fabmain);
+        fab1 = findViewById(R.id.fab1);
+        fab2 = findViewById(R.id.fab2);
+        fab3 = findViewById(R.id.fab3);
+
+        fab1.setAlpha(0f);
+        fab2.setAlpha(0f);
+        fab3.setAlpha(0f);
+
+        fab1.setTranslationY(translationY);
+        fab2.setTranslationY(translationY);
+        fab3.setTranslationY(translationY);
+
+        fabMain.setOnClickListener(this);
+        fab1.setOnClickListener(this);
+        fab2.setOnClickListener(this);
+        fab3.setOnClickListener(this);
+    }
+
+    private void openMenu() {
+        isMenuOpen = !isMenuOpen;
+
+        fabMain.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
+
+        fab1.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+        fab2.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+        fab3.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+
+
+    }
+
+    private void closeMenu() {
+        isMenuOpen = !isMenuOpen;
+
+        fabMain.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
+
+        fab1.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+        fab2.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+        fab3.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+
+    }
+
+    private void handleFabOne() {
+        Log.i(TAG, "handleFabOne: ");
+    }
+
+
+    @Override
+    public void onClick(View view) {
+
+
+
+        switch (view.getId()) {
+            case R.id.fabmain:
+                Log.i(TAG, "onClick: fab main");
+                if (isMenuOpen) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+                break;
+            case R.id.fab1:
+                Log.i(TAG, "onClick: fab one");
+                handleFabOne();
+                if (isMenuOpen) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+                break;
+            case R.id.fab2:
+                Log.i(TAG, "onClick: fab two");
+                break;
+            case R.id.fab3:
+                Log.i(TAG, "onClick: fab three");
+                break;
+        }
+
+    }
+
+
+
+
+
+
+
     private void setupViewPager(ViewPager viewPager){
         SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new LicencePlateFragment(), "Fragment1");
@@ -41,4 +147,6 @@ public class MainActivity extends AppCompatActivity {
     public void setViewPager(int fragmentNumber){
         mViewPager.setCurrentItem(fragmentNumber);
     }
+
+
 }
