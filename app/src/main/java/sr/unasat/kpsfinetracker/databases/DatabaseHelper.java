@@ -33,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     }
 
     private void setDefaultCredentials() {
-        User user = findOneRecordByUsername("admin");
+        User user = findOneRecordByUsername("matthew");
         if (user != null) {
             return;
         }

@@ -20,6 +20,8 @@ import java.util.List;
 import sr.unasat.kpsfinetracker.databases.DatabaseHelper;
 import sr.unasat.kpsfinetracker.entities.User;
 
+import static androidx.constraintlayout.motion.widget.TransitionBuilder.validate;
+
 public class LoginActivity extends AppCompatActivity {
     Button btn_lregister, btn_llogin;
     EditText et_lusername, et_lpassword;
@@ -39,30 +41,6 @@ protected void onCreate(Bundle savedInstanceState){
         btn_lregister = (Button)findViewById(R.id.register_button);
         showpassword = (CheckBox)findViewById(R.id.showPaswCheckBox);
 
-
-        btn_llogin.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = et_lusername.getText().toString();
-                String password = et_lpassword.getText().toString();
-
-                Boolean checklogin = databaseHelper.CheckLogin(username, password);
-                if(checklogin == true){
-                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        btn_lregister.setOnClickListener(new OnClickListener () {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
         showpassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -73,6 +51,51 @@ protected void onCreate(Bundle savedInstanceState){
                 }
             }
         });
+
+
+        btn_llogin.setOnClickListener(new OnClickListener() {
+            @Override
+
+            public void onClick(View v) {
+                String username = et_lusername.getText().toString();
+                String password = et_lpassword.getText().toString();
+
+                Boolean checklogin = databaseHelper.CheckLogin(username, password);
+
+                if(checklogin == true)
+
+                    {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+
+                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+
+
+                }else{
+                    Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });
+
+
+        btn_lregister.setOnClickListener(new OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
     }
+
+
+
 }
+
+
+
+
 
