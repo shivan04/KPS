@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import sr.unasat.kpsfinetracker.MainActivity;
 import sr.unasat.kpsfinetracker.R;
 
@@ -20,6 +22,8 @@ public class LicencePlateFragment extends Fragment {
     private Button btnNavFrag1;
     private Button btnNavFrag2;
     private Button btnNavFrag3;
+    FloatingActionButton fab1;
+
 
     @Nullable
     @Override

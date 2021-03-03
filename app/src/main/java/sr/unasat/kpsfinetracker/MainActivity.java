@@ -3,13 +3,20 @@ package sr.unasat.kpsfinetracker;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import sr.unasat.kpsfinetracker.activity.ContactActivity;
+import sr.unasat.kpsfinetracker.activity.ProfileActivity;
 import sr.unasat.kpsfinetracker.fragments.LicencePlateFragment;
 import sr.unasat.kpsfinetracker.fragments.MissingPersonsListFragment;
 import sr.unasat.kpsfinetracker.fragments.MostWantedListFragment;
@@ -92,9 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void handleFabOne() {
-        Log.i(TAG, "handleFabOne: ");
-    }
+
 
 
     @Override
@@ -113,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.fab1:
                 Log.i(TAG, "onClick: fab one");
-                handleFabOne();
+
                 if (isMenuOpen) {
                     closeMenu();
                 } else {
@@ -122,20 +127,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.fab2:
                 Log.i(TAG, "onClick: fab two");
+                if (isMenuOpen){
+                    closeMenu ();
+                } else {
+                    openMenu ();
+                }
                 break;
             case R.id.fab3:
                 Log.i(TAG, "onClick: fab three");
+                if (isMenuOpen){
+                    closeMenu ();
+                } else {
+                    openMenu ();
+                }
                 break;
         }
 
     }
 
-
-
-
-
-
-
+    //frag
     private void setupViewPager(ViewPager viewPager){
         SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new LicencePlateFragment(), "Fragment1");
@@ -146,6 +156,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void setViewPager(int fragmentNumber){
         mViewPager.setCurrentItem(fragmentNumber);
+    }
+
+    //menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main1, menu);
+        return super.onCreateOptionsMenu(menu);
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logoutBtn:
+                onLogout();
+                break;
+            case R.id.profileBtn:
+                onProfile();
+                break;
+            case R.id.contactBtn:
+                onContact();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void onLogout() {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        Toast.makeText(this,"You're logged out", Toast.LENGTH_LONG).show();
+        finish();
+    }
+    private void onProfile() {
+        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+        startActivity(intent);
+    }
+    private void onContact() {
+        Intent intent = new Intent(MainActivity.this, ContactActivity.class);
+        startActivity(intent);
     }
 
 

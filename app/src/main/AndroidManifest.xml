@@ -9,8 +9,10 @@
         android:roundIcon="@drawable/vds"
         android:supportsRtl="true"
         android:theme="@style/Theme.KPSFineTracker">
-        <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".activity.ProfileActivity"></activity>
+        <activity android:name=".activity.ContactActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
