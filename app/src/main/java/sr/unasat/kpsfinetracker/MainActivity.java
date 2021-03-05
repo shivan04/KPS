@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
     private ViewPager mViewPager;
 
-    FloatingActionButton fabmain;
+
     FloatingActionButton fabMain;
     FloatingActionButton fab2;
     FloatingActionButton fab1;
