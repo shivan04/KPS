@@ -19,61 +19,17 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        >
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tint="@android:color/white"
-            app:fabSize="mini"
-            android:layout_margin="4dp"
-            android:src="@drawable/license_plate"
-            />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tint="@android:color/primary_text_dark"
-            app:fabSize="mini"
-            android:layout_margin="4dp"
-            android:src="@drawable/wanted"
-            />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tint="@android:color/white"
-            app:fabSize="mini"
-            android:layout_margin="4dp"
-            android:src="@drawable/missing__1_"
-            />
-
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabmain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tint="@android:color/white"
-            app:fabSize="normal"
-            android:layout_margin="4dp"
-            android:src="@drawable/ic_baseline_search_24"
-            />
-
-
-    </LinearLayout>
+        />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/container"
-        android:layout_width="328dp"
-        android:layout_height="669dp"
-        android:layout_marginBottom="28dp"
+        android:layout_width="437dp"
+        android:layout_height="805dp"
+        android:layout_marginTop="59dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

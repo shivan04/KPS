@@ -33,7 +33,6 @@ public class LicencePlateFragment extends Fragment {
         btnNavFrag2 = (Button) view.findViewById(R.id.btnNavfrag2);
         btnNavFrag3 = (Button) view.findViewById(R.id.btnNavfrag3);
 
-        fab1 = (FloatingActionButton) view.findViewById (R.id.fab1);
 
 
 

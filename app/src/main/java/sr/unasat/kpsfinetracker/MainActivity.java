@@ -22,7 +22,7 @@ import sr.unasat.kpsfinetracker.fragments.MissingPersonsListFragment;
 import sr.unasat.kpsfinetracker.fragments.MostWantedListFragment;
 import sr.unasat.kpsfinetracker.fragments.SectionsStatePagerAdapter;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
     private ViewPager mViewPager;
 
@@ -53,97 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //setup the pager
         setupViewPager(mViewPager);
 
-        initFabMenu ();
-
-    }
-    private void initFabMenu() {
-        fabMain = findViewById(R.id.fabmain);
-        fab1 = findViewById(R.id.fab1);
-        fab2 = findViewById(R.id.fab2);
-        fab3 = findViewById(R.id.fab3);
-
-        fab1.setAlpha(0f);
-        fab2.setAlpha(0f);
-        fab3.setAlpha(0f);
-
-        fab1.setTranslationY(translationY);
-        fab2.setTranslationY(translationY);
-        fab3.setTranslationY(translationY);
-
-        fabMain.setOnClickListener(this);
-        fab1.setOnClickListener(this);
-        fab2.setOnClickListener(this);
-        fab3.setOnClickListener(this);
-    }
-
-    private void openMenu() {
-        isMenuOpen = !isMenuOpen;
-
-        fabMain.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
-
-        fab1.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-        fab2.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-        fab3.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-
 
     }
 
-    private void closeMenu() {
-        isMenuOpen = !isMenuOpen;
-
-        fabMain.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
-
-        fab1.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-        fab2.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-        fab3.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-
-    }
-
-
-
-
-    @Override
-    public void onClick(View view) {
-
-
-
-        switch (view.getId()) {
-            case R.id.fabmain:
-                Log.i(TAG, "onClick: fab main");
-                if (isMenuOpen) {
-                    closeMenu();
-                } else {
-                    openMenu();
-                }
-                break;
-            case R.id.fab1:
-                Log.i(TAG, "onClick: fab one");
-
-                if (isMenuOpen) {
-                    closeMenu();
-                } else {
-                    openMenu();
-                }
-                break;
-            case R.id.fab2:
-                Log.i(TAG, "onClick: fab two");
-                if (isMenuOpen){
-                    closeMenu ();
-                } else {
-                    openMenu ();
-                }
-                break;
-            case R.id.fab3:
-                Log.i(TAG, "onClick: fab three");
-                if (isMenuOpen){
-                    closeMenu ();
-                } else {
-                    openMenu ();
-                }
-                break;
-        }
-
-    }
 
     //frag
     private void setupViewPager(ViewPager viewPager){

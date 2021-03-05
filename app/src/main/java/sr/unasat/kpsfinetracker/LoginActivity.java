@@ -19,6 +19,7 @@ import java.util.List;
 
 import sr.unasat.kpsfinetracker.databases.DatabaseHelper;
 import sr.unasat.kpsfinetracker.entities.User;
+import sr.unasat.kpsfinetracker.fragments.LicencePlateFragment;
 
 import static androidx.constraintlayout.motion.widget.TransitionBuilder.validate;
 
