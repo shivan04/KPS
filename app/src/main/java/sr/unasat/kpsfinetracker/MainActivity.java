@@ -1,8 +1,5 @@
 package sr.unasat.kpsfinetracker;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,16 +10,21 @@ import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Toast;
 
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import sr.unasat.kpsfinetracker.activity.ContactActivity;
 import sr.unasat.kpsfinetracker.activity.ProfileActivity;
+import sr.unasat.kpsfinetracker.activity.licencePlate;
 import sr.unasat.kpsfinetracker.fragments.LicencePlateFragment;
 import sr.unasat.kpsfinetracker.fragments.MissingPersonsListFragment;
 import sr.unasat.kpsfinetracker.fragments.MostWantedListFragment;
 import sr.unasat.kpsfinetracker.fragments.SectionsStatePagerAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
     private ViewPager mViewPager;
 
@@ -53,8 +55,110 @@ public class MainActivity extends AppCompatActivity {
         //setup the pager
         setupViewPager(mViewPager);
 
+        initFabMenu();
+
+
 
     }
+    private void initFabMenu(){
+        fabMain=findViewById(R.id.fabmain);
+        fab1=findViewById(R.id.fab1);
+        fab2=findViewById(R.id.fab2);
+        fab3=findViewById(R.id.fab3);
+
+        fab1.setAlpha(0f);
+        fab2.setAlpha(0f);
+        fab3.setAlpha(0f);
+
+        fab1.setTranslationY(translationY);
+        fab2.setTranslationY(translationY);
+        fab3.setTranslationY(translationY);
+
+        fabMain.setOnClickListener(this);
+        fab1.setOnClickListener(this);
+        fab2.setOnClickListener(this);
+        fab3.setOnClickListener(this);
+    }
+
+    private void openMenu(){
+        isMenuOpen=!isMenuOpen;
+
+        fabMain.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
+
+        fab1.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+        fab2.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+        fab3.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+
+
+    }
+
+    private void closeMenu(){
+        isMenuOpen=!isMenuOpen;
+
+        fabMain.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
+
+        fab1.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+        fab2.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+        fab3.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+
+    }
+
+    private void licencePlate(){
+
+    }
+
+
+
+
+    @Override
+    public void onClick(View view){
+
+
+
+        switch(view.getId()){
+            case R.id.fabmain:
+            Log.i(TAG,"onClick:fabmain");
+            if(isMenuOpen){
+                closeMenu();
+            }else{
+                openMenu();
+            }
+            break;
+            case R.id.fab1:
+            Log.i(TAG,"onClick:fabone");
+
+            if(isMenuOpen){
+                closeMenu();
+            }else{
+                openMenu();
+            }
+            break;
+            case R.id.fab2:
+            Log.i(TAG,"onClick:fabtwo");
+            if(isMenuOpen){
+                closeMenu();
+            }else{
+                openMenu();
+            }
+            break;
+            case R.id.fab3:
+            Log.i(TAG,"onClick:fabthree");
+            if(isMenuOpen){
+                closeMenu();
+            }else{
+                openMenu();
+            }
+            licence ();
+            break;
+        }
+
+    }
+    private void licence () {
+        Intent intent = new Intent(MainActivity.this, licencePlate.class);
+        startActivity(intent);
+    }
+
+
 
 
     //frag
@@ -110,6 +214,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ContactActivity.class);
         startActivity(intent);
     }
+
+
+
 
 
 }
