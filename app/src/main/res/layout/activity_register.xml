@@ -6,14 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
 
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="154dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="262dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/suriname_wapen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/instruction_text"
-        android:layout_width="409dp"
-        android:layout_height="74dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="21dp"
-        android:layout_marginEnd="11dp"
-        android:text="Fill in all the fields below. After you filled in all the fields press &quot;REGISTER&quot; to send the email. You will get your log in details within 1-2 days through your email after we've verified your data with Korps Politie Suriname"
+        android:textSize="4.5pt"
+        android:text="Fill in all the fields below. \nAfter you filled in all the fields press &quot;REGISTER&quot; to send the email. \nYou will get your log in details within 1-2 days through your email after we've verified your data with Korps Politie Suriname. \n"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginEnd="242dp"
+        android:textSize="4.5pt"
         android:text="All fields below are required!"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -61,13 +74,13 @@
         app:layout_constraintTop_toBottomOf="@+id/lastname_text" />
 
     <EditText
-        android:id="@+id/date_text"
+        android:id="@+id/dob_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="110dp"
         android:layout_marginEnd="110dp"
         android:ems="10"
-        android:hint="Birthdate"
+        android:hint="Date of Birth"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -86,7 +99,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_text" />
+        app:layout_constraintTop_toBottomOf="@+id/dob_text" />
 
     <EditText
         android:id="@+id/phone_text"
@@ -144,8 +157,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/region_text" />
 
+    <Spinner
+        android:id="@+id/option_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/district_text" />
+
     <Button
-        android:id="@+id/register_button1"
+        android:id="@+id/register_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="163dp"
@@ -157,27 +179,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/option_spinner"
         app:rippleColor="#FFDD00" />
-
-    <Spinner
-        android:id="@+id/option_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/district_text" />
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="154dp"
-        android:layout_height="73dp"
-        android:layout_marginStart="262dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/wapen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

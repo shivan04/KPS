@@ -1,222 +1,54 @@
 package sr.unasat.kpsfinetracker;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.OvershootInterpolator;
-import android.widget.Toast;
 
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.Fragment;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import sr.unasat.kpsfinetracker.activity.ContactActivity;
-import sr.unasat.kpsfinetracker.activity.ProfileActivity;
-import sr.unasat.kpsfinetracker.activity.licencePlate;
-import sr.unasat.kpsfinetracker.fragments.LicencePlateFragment;
-import sr.unasat.kpsfinetracker.fragments.MissingPersonsListFragment;
-import sr.unasat.kpsfinetracker.fragments.MostWantedListFragment;
-import sr.unasat.kpsfinetracker.fragments.SectionsStatePagerAdapter;
+import sr.unasat.kpsfinetracker.fragments.LicensePlateFragment;
+import sr.unasat.kpsfinetracker.fragments.MissingPersonsFragment;
+import sr.unasat.kpsfinetracker.fragments.MostWantedFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
-    private ViewPager mViewPager;
-
-
-    FloatingActionButton fabMain;
-    FloatingActionButton fab2;
-    FloatingActionButton fab1;
-    FloatingActionButton fab3;
-    Float translationY = 100f;
-    boolean isMenuOpen = true;
-    OvershootInterpolator interpolator = new OvershootInterpolator ();
-
-
-
-
-    private static final String TAG = "MainActivity";
+public class MainActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        Log.d(TAG, "onCreate: Started.");
-        mSectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
-
-        mViewPager = (ViewPager)findViewById(R.id.container);
-        //setup the pager
-        setupViewPager(mViewPager);
-
-        initFabMenu();
-
-
-
-    }
-    private void initFabMenu(){
-        fabMain=findViewById(R.id.fabmain);
-        fab1=findViewById(R.id.fab1);
-        fab2=findViewById(R.id.fab2);
-        fab3=findViewById(R.id.fab3);
-
-        fab1.setAlpha(0f);
-        fab2.setAlpha(0f);
-        fab3.setAlpha(0f);
-
-        fab1.setTranslationY(translationY);
-        fab2.setTranslationY(translationY);
-        fab3.setTranslationY(translationY);
-
-        fabMain.setOnClickListener(this);
-        fab1.setOnClickListener(this);
-        fab2.setOnClickListener(this);
-        fab3.setOnClickListener(this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contrainer, new LicensePlateFragment()).commit();
     }
 
-    private void openMenu(){
-        isMenuOpen=!isMenuOpen;
+    private  BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Fragment selectedFragment = null;
 
-        fabMain.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
+                    switch (item.getItemId()) {
+                        case R.id.nav_license_plate:
+                            selectedFragment = new LicensePlateFragment();
+                            break;
+                        case R.id.nav_missing_persons:
+                            selectedFragment = new MissingPersonsFragment();
+                            break;
+                        case R.id.nav_most_wanted:
+                            selectedFragment = new MostWantedFragment();
+                            break;
+                    }
 
-        fab1.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-        fab2.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-        fab3.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contrainer, selectedFragment).commit();
 
-
-    }
-
-    private void closeMenu(){
-        isMenuOpen=!isMenuOpen;
-
-        fabMain.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
-
-        fab1.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-        fab2.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-        fab3.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-
-    }
-
-    private void licencePlate(){
-
-    }
-
-
-
-
-    @Override
-    public void onClick(View view){
-
-
-
-        switch(view.getId()){
-            case R.id.fabmain:
-            Log.i(TAG,"onClick:fabmain");
-            if(isMenuOpen){
-                closeMenu();
-            }else{
-                openMenu();
-            }
-            break;
-            case R.id.fab1:
-            Log.i(TAG,"onClick:fabone");
-
-            if(isMenuOpen){
-                closeMenu();
-            }else{
-                openMenu();
-            }
-            break;
-            case R.id.fab2:
-            Log.i(TAG,"onClick:fabtwo");
-            if(isMenuOpen){
-                closeMenu();
-            }else{
-                openMenu();
-            }
-            break;
-            case R.id.fab3:
-            Log.i(TAG,"onClick:fabthree");
-            if(isMenuOpen){
-                closeMenu();
-            }else{
-                openMenu();
-            }
-            licence ();
-            break;
-        }
-
-    }
-    private void licence () {
-        Intent intent = new Intent(MainActivity.this, licencePlate.class);
-        startActivity(intent);
-    }
-
-
-
-
-    //frag
-    private void setupViewPager(ViewPager viewPager){
-        SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new LicencePlateFragment(), "Fragment1");
-        adapter.addFragment(new MostWantedListFragment(), "Fragment2");
-        adapter.addFragment(new MissingPersonsListFragment(), "Fragment3");
-        viewPager.setAdapter(adapter);
-
-    }
-    public void setViewPager(int fragmentNumber){
-        mViewPager.setCurrentItem(fragmentNumber);
-    }
-
-    //menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main1, menu);
-        return super.onCreateOptionsMenu(menu);
-
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logoutBtn:
-                onLogout();
-                break;
-            case R.id.profileBtn:
-                onProfile();
-                break;
-            case R.id.contactBtn:
-                onContact();
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void onLogout() {
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        Toast.makeText(this,"You're logged out", Toast.LENGTH_LONG).show();
-        finish();
-    }
-    private void onProfile() {
-        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-        startActivity(intent);
-    }
-    private void onContact() {
-        Intent intent = new Intent(MainActivity.this, ContactActivity.class);
-        startActivity(intent);
-    }
-
-
-
-
-
+                    return true;
+                }
+            };
 }

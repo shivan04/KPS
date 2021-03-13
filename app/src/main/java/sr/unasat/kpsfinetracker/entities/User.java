@@ -2,14 +2,18 @@ package sr.unasat.kpsfinetracker.entities;
 
 public class User {
     private long id;
-    private String userName;
-    private String password;
+    private String username, password, station, region, district;
+    private Person person;
 
-
-    public User(long id, String userName, String password) {
+    public User(long id, String username, String password, String station ,String region, String district, Person person) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
+        this.station = station;
+        this.region = region;
+        this.district = district;
+        this.person = person;
+
     }
 
     public long getId() {
@@ -20,12 +24,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -34,5 +38,37 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getStation() {
+        return station;
+    }
+
+    public void setStation(String station) {
+        this.station = station;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

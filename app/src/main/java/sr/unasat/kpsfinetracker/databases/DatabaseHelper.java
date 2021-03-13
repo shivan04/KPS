@@ -4,123 +4,109 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 import sr.unasat.kpsfinetracker.entities.User;
+import sr.unasat.kpsfinetracker.entities.Person;
+import sr.unasat.kpsfinetracker.entities.Vehicle;
 
-public class DatabaseHelper extends SQLiteOpenHelper
-{
-    private static final String DATABASE_NAME = "financial.db";
+public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "kps.db";
 
-    public static final String ID = "id";
+    public static final String USERS_TABLE = "users";
+    public static final String USERS_USERNAME = "username";
+    public static final String USERS_PASSWORD = "password";
 
-    public static final String USER_TABLE = "user";
-    public static final String USER_USERNAME = "username";
-    public static final String USER_PASSWORD = "password";
+    public static final String PEOPLE_TABLE = "people";
+    public static final String PEOPLE_ID = "id_number";
 
-    private static final String SQL_USER_TABLE_QUERY = "create table user(id INTEGER PRIMARY KEY, username STRING NOT NULL UNIQUE, password STRING NOT NULL)";
-   // private static final String SQL_TRANSACTION_TABLE_QUERY = "create table transactionT (id INTEGER PRIMARY KEY, amount REAL NOT NULL, type STRING NOT NULL)";
+    public static final String VEHICLE_TABLE = "vehicles";
+    public static final String VEHICLE_LICENSE_PLATE = "license_plate_number";
+
+    public static final String CRIMES_TABLE = "crimes";
+    public static final String CRIMES_PERSON = "person_id";
+
+    private static final String SQL_SETUP_PERSON_QUERY = "CREATE TABLE people(id INTEGER PRIMARY KEY, lastname VARCHAR(255) NOT NULL, firstname VARCHAR(255) NOT NULL, id_number VARCHAR(255) NOT NULL, dob DATE , email_address VARCHAR(255) NOT NULL, phone_number VARCHAR(255) NOT NULL, address VARCHAR(255) NOT NULL)";
+
+    private static final String SQL_SETUP_USER_QUERY = "CREATE TABLE users(id INTEGER PRIMARY KEY, username VARCHAR(255) NOT NULL UNIQUE, password VARCHAR(255) NOT NULL, station VARCHAR(255) NOT NULL, region VARCHAR(255) NOT NULL, district VARCHAR(255) NOT NULL, person_id INTEGER NOT NULL)";
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        System.out.println("CREATING PEOPLE TABLE");
+        db.execSQL(SQL_SETUP_PERSON_QUERY);
+        System.out.println("CREATING USER TABLE");
+        db.execSQL(SQL_SETUP_USER_QUERY);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    }
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         setDefaultCredentials();
     }
 
-    private void setDefaultCredentials() {
-        User user = findOneRecordByUsername("matthew");
-        if (user != null) {
-            return;
+    public void setDefaultCredentials(){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM users WHERE username=? AND password=?", new String[]{"admin", "admin"});
+        if(cursor.getCount() == 0){
+            ContentValues personContentValues = new ContentValues();
+            personContentValues.put("lastname", "Admin");
+            personContentValues.put("firstname", "Admin");
+            personContentValues.put("id_number", "0000");
+            personContentValues.put("email_address", "admin@kps.sr");
+            personContentValues.put("phone_number", "0000");
+            personContentValues.put("address", "NA");
+            long personId = insertOneRecord(PEOPLE_TABLE, personContentValues);
+
+            if (personId >= 1){
+                ContentValues userContentValues = new ContentValues();
+                userContentValues.put(USERS_USERNAME, "admin");
+                userContentValues.put(USERS_PASSWORD, "admin");
+                userContentValues.put("station", "Tamenga");
+                userContentValues.put("region", "Tamenga");
+                userContentValues.put("district", "Paramaribo");
+                userContentValues.put("person_id", personId);
+                insertOneRecord(USERS_TABLE, userContentValues);
+            }
         }
-        //Set default username and password
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(USER_USERNAME, "admin");
-        contentValues.put(USER_PASSWORD, "admin");
-        insertOneRecord(USER_TABLE, contentValues);
-    }
-
-    ;
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_USER_TABLE_QUERY);
-       // db.execSQL(SQL_TRANSACTION_TABLE_QUERY);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
 
-    public long insertOneRecord(String tableName, ContentValues contentValues) {
+    public long insertOneRecord(String tableName, ContentValues contentValues){
         SQLiteDatabase db = getWritableDatabase();
         long rowId = db.insert(tableName, null, contentValues);
+        System.out.println("INSERT:"+ rowId);
         db.close();
-        //return the row ID of the newly inserted row, or -1 if an error occurred
         return rowId;
     }
 
-    public boolean insertMultipleRecord(String tableName, List<ContentValues> contentValuesList) {
+    public boolean insertMultipleRecords(String tableName, List<ContentValues> contentValuesList){
         SQLiteDatabase db = getWritableDatabase();
         long countOnSucces = 0;
         long rowId = 0;
         for (ContentValues contentValues : contentValuesList) {
             rowId = db.insert(tableName, null, contentValues);
-            countOnSucces = (rowId == 1 ? countOnSucces++ : countOnSucces);
+            countOnSucces = (rowId >= 1 ? countOnSucces++ : countOnSucces);
         }
         boolean isSuccess = (countOnSucces > 0 && contentValuesList.size() == countOnSucces);
         db.close();
-        //return the true id all inserts where succesfull
         return isSuccess;
     }
 
-    public User findOneRecordByUsername(String username) {
-        User user = null;
-        SQLiteDatabase db = getReadableDatabase();
-        String sql = String.format("select * from %s where %s = '%s'", USER_TABLE, USER_USERNAME, username);
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor.moveToFirst()) {
-            user = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2));
-        }
-        db.close();
-        return user;
-    }
-
-    public List<User> findAllRecords(String table) {
-        List<User> users = new ArrayList<> ();
-        SQLiteDatabase db = getReadableDatabase();
-        String sql = String.format("select * from %s", table);
-        Cursor cursor = db.rawQuery(sql, null);
-        while (cursor.moveToNext()) {
-            users.add(new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2)));
-        }
-        db.close();
-        return users;
-    }
-
-    public Boolean CheckUsername(String username){
-        SQLiteDatabase sqLiteDatabase =getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM user WHERE username=?", new String[]{username});
-        if(cursor.getCount() > 0){
-            return false;
-        }else{
-            return true;
-        }
-
-    }
-
-    public Boolean CheckLogin(String username, String password){
+    public boolean validateLogin(String username, String password){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM user WHERE username=? AND password=?", new String[]{username, password});
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM users WHERE username=? AND password=?", new String[]{username, password});
         if(cursor.getCount() > 0){
             return true;
         }else{
             return false;
         }
     }
+
 }

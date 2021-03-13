@@ -1,5 +1,5 @@
 package sr.unasat.kpsfinetracker;
-import android.content.ContentValues;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -13,74 +13,60 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import sr.unasat.kpsfinetracker.databases.DatabaseHelper;
-import sr.unasat.kpsfinetracker.entities.User;
-import sr.unasat.kpsfinetracker.fragments.LicencePlateFragment;
-
-import static androidx.constraintlayout.motion.widget.TransitionBuilder.validate;
 
 public class LoginActivity extends AppCompatActivity {
-    Button btn_lregister, btn_llogin;
-    EditText et_lusername, et_lpassword;
-    CheckBox showpassword;
+    Button registerBtn, loginBtn;
+    EditText usernameTxt, passwordTxt;
+    CheckBox showPasswordCheckBox;
+    DatabaseHelper dbHelper;
 
-    DatabaseHelper databaseHelper;
     @Override
-protected void onCreate(Bundle savedInstanceState){
-    super.onCreate (savedInstanceState);
-    setContentView (R.layout.activity_login);
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate (savedInstanceState);
+        setContentView (R.layout.activity_login);
 
-    databaseHelper = new DatabaseHelper (this);
-        et_lusername = (EditText)findViewById(R.id.usernameTxt);
-        et_lpassword = (EditText)findViewById(R.id.passwordTxt);
+        dbHelper = new DatabaseHelper (this);
+        usernameTxt = (EditText)findViewById(R.id.username_txt);
+        passwordTxt = (EditText)findViewById(R.id.password_txt);
 
-        btn_llogin = (Button)findViewById(R.id.loginBtn);
-        btn_lregister = (Button)findViewById(R.id.register_button);
-        showpassword = (CheckBox)findViewById(R.id.showPaswCheckBox);
+        loginBtn = (Button)findViewById(R.id.login_btn);
+        registerBtn = (Button)findViewById(R.id.register_btn);
+        showPasswordCheckBox = (CheckBox)findViewById(R.id.showpasw_checkbox);
 
-        showpassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        showPasswordCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked){
-                    et_lpassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    passwordTxt.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }else {
-                    et_lpassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    passwordTxt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }
             }
         });
 
 
-        btn_llogin.setOnClickListener(new OnClickListener() {
+        loginBtn.setOnClickListener(new OnClickListener() {
             @Override
-
             public void onClick(View v) {
-                String username = et_lusername.getText().toString();
-                String password = et_lpassword.getText().toString();
+                String username = usernameTxt.getText().toString();
+                String password = passwordTxt.getText().toString();
 
-                Boolean checklogin = databaseHelper.CheckLogin(username, password);
+                System.out.println(username + " " + password);
+                boolean results = login(username, password);
+                System.out.println(results);
 
-                if(checklogin == true)
-
-                    {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-
+                if(results){
                     Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-
-
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }else{
                     Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
                 }
             }
-
         });
 
-
-        btn_lregister.setOnClickListener(new OnClickListener () {
+        registerBtn.setOnClickListener(new OnClickListener () {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -88,11 +74,11 @@ protected void onCreate(Bundle savedInstanceState){
             }
         });
 
-
-
     }
 
-
+    public boolean login(String username, String password){
+        return dbHelper.validateLogin(username, password);
+    }
 
 }
 
