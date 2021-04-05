@@ -97,7 +97,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         boolean isSuccess = (countOnSucces > 0 && contentValuesList.size() == countOnSucces);
         db.close();
         return isSuccess;
-    }
+    }   
 
     public boolean validateLogin(String username, String password){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();

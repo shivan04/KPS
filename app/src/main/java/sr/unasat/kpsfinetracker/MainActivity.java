@@ -1,7 +1,11 @@
 package sr.unasat.kpsfinetracker;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -11,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import sr.unasat.kpsfinetracker.activity.ProfileActivity;
 import sr.unasat.kpsfinetracker.fragments.LicensePlateFragment;
 import sr.unasat.kpsfinetracker.fragments.MissingPersonsFragment;
 import sr.unasat.kpsfinetracker.fragments.MostWantedFragment;
@@ -51,4 +56,43 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
-}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sidemenu,menu);
+        return super.onCreateOptionsMenu(menu);
+
+    }
+
+    //Log out, profile, contact code
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logoutBtn:
+                onLogout();
+                break;
+            case R.id.profileBtn:
+                onProfile();
+                break;
+            case R.id.contactBtn:
+              //  onContact();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+        private void onLogout () {
+            Intent intent = new Intent (MainActivity.this, LoginActivity.class);
+            intent.setFlags (Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity (intent);
+            Toast.makeText (this, "You're logged out", Toast.LENGTH_LONG).show ();
+            finish ();
+        }
+    private void onProfile() {
+        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+
+    }
