@@ -4,18 +4,13 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
+    <item android:id="@+id/contactBtn"
+        android:orderInCategory="100"
+        android:title="Contact"
+        app:showAsAction="never"/>
 
-        <item android:id="@+id/profileBtn"
-            android:orderInCategory="100"
-            android:title="Profile"
-            app:showAsAction="never"/>
 
-        <item android:id="@+id/contactBtn"
-            android:orderInCategory="100"
-            android:title="Contact"
-            app:showAsAction="never"/>
-
-        <item android:id="@+id/logoutBtn"
+    <item android:id="@+id/logoutBtn"
             android:orderInCategory="100"
             android:title="Log out"
             app:showAsAction="never" />

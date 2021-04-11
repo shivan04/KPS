@@ -11,7 +11,6 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.KPSFineTracker">
-        <activity android:name=".activity.ProfileActivity" />
         <activity android:name=".activity.ContactActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
