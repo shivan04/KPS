@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import sr.unasat.kpsfinetracker.databases.DatabaseHelper;
+import sr.unasat.kpsfinetracker.services.MyService;
 
 public class LoginActivity extends AppCompatActivity {
     Button registerBtn, loginBtn;
@@ -49,6 +50,11 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                //service code
+                Intent intentservice = new Intent(LoginActivity.this, MyService.class);
+                startService(intentservice);
+
+
                 String username = usernameTxt.getText().toString();
                 String password = passwordTxt.getText().toString();
 
@@ -58,12 +64,20 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(results){
                     Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+
+
+
+
                 }else{
                     Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
                 }
+
             }
+
         });
 
         registerBtn.setOnClickListener(new OnClickListener () {
@@ -79,6 +93,8 @@ public class LoginActivity extends AppCompatActivity {
     public boolean login(String username, String password){
         return dbHelper.validateLogin(username, password);
     }
+
+
 
 }
 

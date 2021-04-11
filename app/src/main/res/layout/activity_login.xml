@@ -56,7 +56,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/showpasw_checkbox" />
+        app:layout_constraintTop_toBottomOf="@+id/showpasw_checkbox"
+        />
 
     <CheckBox
         android:id="@+id/showpasw_checkbox"

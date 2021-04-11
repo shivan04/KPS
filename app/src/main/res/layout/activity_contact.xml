@@ -4,4 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ContactActivity"/>
+    tools:context=".activity.ContactActivity">
+
+    <ImageView
+        android:id="@+id/imageViewkps"
+        android:layout_width="168dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="88dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/kps" />
+
+    <TextView
+        android:id="@+id/textViewcontact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="106dp"
+        android:foregroundGravity="center_horizontal"
+        android:text="Korps Politie Suriname afd. VDS"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewkps" />
+
+    <TextView
+        android:id="@+id/textViewcontact2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="167dp"
+        android:layout_marginEnd="167dp"
+        android:foregroundGravity="center_horizontal"
+        android:text="Havenlaan 1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewcontact" />
+
+    <TextView
+        android:id="@+id/textViewcontact3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="154dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="155dp"
+        android:foregroundGravity="center_horizontal"
+        android:text="404522/403101"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewcontact2" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="190dp"
+        android:layout_height="148dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageViewkps"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+</androidx.constraintlayout.widget.ConstraintLayout>

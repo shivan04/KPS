@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 
@@ -19,6 +20,7 @@ import sr.unasat.kpsfinetracker.activity.ContactActivity;
 import sr.unasat.kpsfinetracker.fragments.LicensePlateFragment;
 import sr.unasat.kpsfinetracker.fragments.MissingPersonsFragment;
 import sr.unasat.kpsfinetracker.fragments.MostWantedFragment;
+import sr.unasat.kpsfinetracker.services.MyService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    //Log out, profile, contact code
+    //Log out, contact code
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 onLogout();
                 break;
             case R.id.contactBtn:
-              //  onContact();
+                onContact();
                 break;
         }
 
@@ -88,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent (MainActivity.this, LoginActivity.class);
             intent.setFlags (Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity (intent);
+            //service
+            Intent intentservice1 = new Intent(this, MyService.class);
+            stopService(intentservice1);
             Toast.makeText (this, "You're logged out", Toast.LENGTH_LONG).show ();
             finish ();
         }
@@ -101,4 +106,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    }
+
+
+
+
+}
