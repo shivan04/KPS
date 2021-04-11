@@ -1,26 +1,40 @@
 package sr.unasat.kpsfinetracker;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
 import sr.unasat.kpsfinetracker.activity.ProfileActivity;
+import sr.unasat.kpsfinetracker.databases.DatabaseHelperSearch;
 import sr.unasat.kpsfinetracker.fragments.LicensePlateFragment;
 import sr.unasat.kpsfinetracker.fragments.MissingPersonsFragment;
 import sr.unasat.kpsfinetracker.fragments.MostWantedFragment;
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contrainer, new LicensePlateFragment()).commit();
+
+
     }
 
     private  BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -61,8 +77,9 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.sidemenu,menu);
         return super.onCreateOptionsMenu(menu);
-
     }
+
+
 
     //Log out, profile, contact code
     @Override
@@ -93,6 +110,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
         startActivity(intent);
     }
+
+
+
+
 
 
     }
