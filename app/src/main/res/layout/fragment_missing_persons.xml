@@ -5,11 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Missing Persons Fragment"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+    <ImageView
+        android:id="@+id/imageViewvermissing"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        app:srcCompat="@drawable/vermissing" />
 
+    <ImageView
+        android:id="@+id/imageViewvermissing2"
+        android:layout_width="match_parent"
+        android:layout_height="161dp"
+        app:srcCompat="@drawable/vermissing_2"
+        android:layout_below="@+id/imageViewvermissing"/>
+
+    <ImageView
+        android:id="@+id/imagevermissing3"
+        android:layout_width="match_parent"
+        android:layout_height="161dp"
+        app:srcCompat="@drawable/vermissing_3"
+        android:layout_below="@id/imageViewvermissing2"/>
+
+    <ImageView
+        android:id="@+id/imageViewvermising4"
+        android:layout_width="match_parent"
+        android:layout_height="161dp"
+        app:srcCompat="@drawable/vermissing_4"
+        android:layout_below="@id/imagevermissing3"/>
 </RelativeLayout>

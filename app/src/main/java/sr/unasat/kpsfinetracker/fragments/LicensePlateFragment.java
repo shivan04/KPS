@@ -84,6 +84,7 @@ public class LicensePlateFragment extends Fragment {
 
             }
         });
+
     }
 
     private void viewData() {
