@@ -1,16 +1,12 @@
 package sr.unasat.kpsfinetracker.fragments;
 
-import sr.unasat.kpsfinetracker.MainActivity;
 import sr.unasat.kpsfinetracker.R;
-import sr.unasat.kpsfinetracker.databases.DatabaseHelperSearch;
+import sr.unasat.kpsfinetracker.databases.DatabaseHelper;
 
-import android.content.Context;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,12 +14,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -31,114 +25,108 @@ import java.util.ArrayList;
 
 public class LicensePlateFragment extends Fragment {
 
-    DatabaseHelperSearch db;
-
-    Button add_data;
-    EditText add_name;
-
-    ListView userlist;
-
-    ArrayList<String> listItem;
-    ArrayAdapter adapter;
+    Button addDataBtn, searchDataBtn;
+    EditText addDataTxt;
+    ListView userListView;
+    ArrayList<String> arrayList;
+    DatabaseHelper dbHelper;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_license_plate, container, false);
-
-
     }
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        db = new DatabaseHelperSearch(getActivity());
+        dbHelper = new DatabaseHelper(getActivity());
 
-        listItem = new ArrayList<>();
-        add_data = (Button) getView().findViewById(R.id.add_data);
-        add_name = (EditText) getView().findViewById(R.id.add_name);
-        userlist = (ListView) getView().findViewById(R.id.users_list);
+        arrayList = new ArrayList<>();
+        addDataBtn = (Button) getView().findViewById(R.id.add_data);
+        searchDataBtn = (Button) getView().findViewById(R.id.search_data);
+        addDataTxt = (EditText) getView().findViewById(R.id.add_name);
+        userListView = (ListView) getView().findViewById(R.id.users_list);
 
+        getLicensePlates();
 
-        viewData();
-
-        userlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String text = userlist.getItemAtPosition(position).toString();
+                String text = userListView.getItemAtPosition(position).toString();
                 Toast.makeText(getActivity(), ""+text, Toast.LENGTH_SHORT).show();
             }
         });
 
-        add_data.setOnClickListener(new View.OnClickListener() {
+        addDataBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = add_name.getText().toString();
-                if (!name.equals("") && db.insertData(name)){
-                    Toast.makeText(getActivity(), "Data added", Toast.LENGTH_SHORT).show();
-                    add_name.setText("");
-                    listItem.clear();
-                    viewData();
-                }else{
+                String license_plate_number = addDataTxt.getText().toString();
+                if (!license_plate_number.equals("")) {
+                    ContentValues content = new ContentValues();
+                    content.put("license_plate_number", license_plate_number);
+                    long results = dbHelper.insertOneRecord("vehicles", content);
+                    if (results >= 1){
+                        Toast.makeText(getActivity(), "License plate inserted succesfully", Toast.LENGTH_SHORT).show();
+                        arrayList.clear();
+                        addDataTxt.setText("");
+                        getLicensePlates();
+                    }
+                    else{
+                        Toast.makeText(getActivity(), "License plate not inserted", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(getActivity(), "Please add data", Toast.LENGTH_SHORT).show();
+                }
+               }
+        });
+
+        searchDataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String license_plate_number = addDataTxt.getText().toString();
+                if (!license_plate_number.equals("")) {
+                    searchLicensePlates(license_plate_number);
+                } else {
+                    getLicensePlates();
                     Toast.makeText(getActivity(), "Data not added", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
     }
 
-    private void viewData() {
-        Cursor cursor = db.viewData();
+    private void searchLicensePlates(String search_data){
+        Cursor cursor = dbHelper.searchTable("vehicles", "license_plate_number", search_data);
+
+        if (cursor.getCount() == 0){
+            arrayList.clear();
+            Toast.makeText(getActivity(), "No data to show", Toast.LENGTH_SHORT).show();
+        } else {
+            arrayList.clear();
+            while (cursor.moveToNext()){
+                arrayList.add(cursor.getString(1));
+            }
+            final ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, arrayList);
+            userListView.setAdapter(adapter);
+        }
+    }
+
+    private void getLicensePlates(){
+        Cursor cursor = dbHelper.getLicensePlates();
 
         if (cursor.getCount() == 0){
             Toast.makeText(getActivity(), "No data to show", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             while (cursor.moveToNext()){
-                listItem.add(cursor.getString(1)); //index 1 is name, index 0 is Id
+                arrayList.add(cursor.getString(1));
             }
-            final ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,
-                    listItem);
-            userlist.setAdapter(adapter);
-
+            final ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, arrayList);
+            userListView.setAdapter(adapter);
         }
     }
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu, menu);
-
-        MenuItem searchItem = menu.findItem(R.id.item_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                ArrayList<String> userslist = new ArrayList<>();
-
-                for (String user : listItem){
-                    if (user.toLowerCase().contains(newText.toLowerCase())){
-                        userslist.add(user);
-                    }
-                }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_list_item_1, userslist);
-                userlist.setAdapter(adapter);
-                return true;
-            }
-        });
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    }
+}
 
 
 

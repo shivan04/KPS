@@ -23,36 +23,33 @@ import sr.unasat.kpsfinetracker.services.MyService;
 
 public class WeatherMainActivity extends AppCompatActivity {
 
-    Button btn_CityID, btn_getWeatherByID, btn_getWeatherByName;
-    EditText et_dataInput;
-    ListView lv_weatherReport;
+    Button cityIdBtn, weatherByIdBtn, weatherByNameBtn;
+    EditText dataInput;
+    ListView weatherListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_main);
 
-        btn_CityID = (Button)findViewById(R.id.btn_getCityID);
-        btn_getWeatherByID = (Button)findViewById(R.id.btn_getWeatherByCityID);
-        btn_getWeatherByName = (Button)findViewById(R.id.btn_getWeatherByCityName);
+        cityIdBtn = (Button)findViewById(R.id.btn_getCityID);
+        weatherByIdBtn = (Button)findViewById(R.id.btn_getWeatherByCityID);
+        weatherByNameBtn = (Button)findViewById(R.id.btn_getWeatherByCityName);
 
-        et_dataInput = (EditText)findViewById(R.id.et_dataInput);
-        lv_weatherReport = (ListView)findViewById(R.id.lv_weatherReports);
+        dataInput = (EditText)findViewById(R.id.et_dataInput);
+        weatherListView = (ListView)findViewById(R.id.lv_weatherReports);
 
         final WeatherDataService weatherDataService = new WeatherDataService(WeatherMainActivity.this);
 
         //Click listener for each button
-        btn_CityID.setOnClickListener(new View.OnClickListener() {
+        cityIdBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 //this didn't return anything.
-                weatherDataService.getCityID(et_dataInput.getText().toString(), new WeatherDataService.VolleyResponseListener() {
+                weatherDataService.getCityID(dataInput.getText().toString(), new WeatherDataService.VolleyResponseListener() {
                     @Override
                     public void onError(String message) {
                         Toast.makeText(WeatherMainActivity.this, "Something wrong",  Toast.LENGTH_SHORT).show();
-
                     }
 
                     @Override
@@ -64,13 +61,13 @@ public class WeatherMainActivity extends AppCompatActivity {
 
             }
         });
-        btn_getWeatherByID.setOnClickListener(new View.OnClickListener() {
+        weatherByIdBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
 
-                weatherDataService.getCityForecastByID(et_dataInput.getText().toString(), new WeatherDataService.ForeCastByIDResponse() {
+                weatherDataService.getCityForecastByID(dataInput.getText().toString(), new WeatherDataService.ForeCastByIDResponse() {
                     @Override
                     public void onError(String message) {
                         Toast.makeText(WeatherMainActivity.this, "Something wrong", Toast.LENGTH_SHORT).show();
@@ -82,7 +79,7 @@ public class WeatherMainActivity extends AppCompatActivity {
                         // put the entire list into the listview control
 
                         ArrayAdapter arrayAdapter = new ArrayAdapter(WeatherMainActivity.this, android.R.layout.simple_list_item_1, weatherReportModels);
-                        lv_weatherReport.setAdapter(arrayAdapter);
+                        weatherListView.setAdapter(arrayAdapter);
 
                     }
                 });
@@ -91,10 +88,10 @@ public class WeatherMainActivity extends AppCompatActivity {
 
             }
         });
-        btn_getWeatherByName.setOnClickListener(new View.OnClickListener() {
+        weatherByNameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                weatherDataService.getCityForecastByName(et_dataInput.getText().toString(), new WeatherDataService.GetCityForecastByNameCallback() {
+                weatherDataService.getCityForecastByName(dataInput.getText().toString(), new WeatherDataService.GetCityForecastByNameCallback() {
                     @Override
                     public void onError(String message) {
                         Toast.makeText(WeatherMainActivity.this, "Something wrong", Toast.LENGTH_SHORT).show();
@@ -106,7 +103,7 @@ public class WeatherMainActivity extends AppCompatActivity {
                         // put the entire list into the listview control
 
                         ArrayAdapter arrayAdapter = new ArrayAdapter(WeatherMainActivity.this, android.R.layout.simple_list_item_1, weatherReportModels);
-                        lv_weatherReport.setAdapter(arrayAdapter);
+                        weatherListView.setAdapter(arrayAdapter);
 
                     }
                 });

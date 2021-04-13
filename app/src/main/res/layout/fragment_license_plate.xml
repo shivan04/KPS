@@ -1,36 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <ListView
-        android:id="@+id/users_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/add_name"/>
 
     <EditText
         android:id="@+id/add_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:hint="Register fine" />
+        android:hint="Register License Plate" />
 
-    <Button
-        android:id="@+id/add_data"
-        android:layout_width="wrap_content"
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/add_name"
-        android:text="add" />
+        android:layout_below="@+id/add_name">
 
+        <Button
+            android:id="@+id/add_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/add_name"
+            android:text="add"
+            android:layout_marginLeft="20dp"/>
 
+        <Button
+            android:id="@+id/search_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/add_name"
+            android:text="search"
+            android:layout_marginLeft="190dp"
+            />
 
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-
-
+    <ListView
+        android:id="@+id/users_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear"/>
 
 </RelativeLayout>

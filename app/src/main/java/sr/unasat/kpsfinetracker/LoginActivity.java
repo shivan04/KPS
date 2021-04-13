@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView (R.layout.activity_login);
 
         dbHelper = new DatabaseHelper (this);
+        dbHelper.getWritableDatabase();
         usernameTxt = (EditText)findViewById(R.id.username_txt);
         passwordTxt = (EditText)findViewById(R.id.password_txt);
 
@@ -64,13 +65,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(results){
                     Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-
-
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
-
-
-
 
                 }else{
                     Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
@@ -93,8 +89,6 @@ public class LoginActivity extends AppCompatActivity {
     public boolean login(String username, String password){
         return dbHelper.validateLogin(username, password);
     }
-
-
 
 }
 

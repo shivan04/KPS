@@ -27,23 +27,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String VEHICLE_TABLE = "vehicles";
     public static final String VEHICLE_LICENSE_PLATE = "license_plate_number";
 
-    public static final String CRIMES_TABLE = "crimes";
-    public static final String CRIMES_PERSON = "person_id";
 
     private static final String SQL_SETUP_PERSON_QUERY = "CREATE TABLE people(id INTEGER PRIMARY KEY, lastname VARCHAR(255) NOT NULL, firstname VARCHAR(255) NOT NULL, id_number VARCHAR(255) NOT NULL, dob DATE , email_address VARCHAR(255) NOT NULL, phone_number VARCHAR(255) NOT NULL, address VARCHAR(255) NOT NULL)";
 
     private static final String SQL_SETUP_USER_QUERY = "CREATE TABLE users(id INTEGER PRIMARY KEY, username VARCHAR(255) NOT NULL UNIQUE, password VARCHAR(255) NOT NULL, station VARCHAR(255) NOT NULL, region VARCHAR(255) NOT NULL, district VARCHAR(255) NOT NULL, person_id INTEGER NOT NULL)";
 
+    private static final String SQL_SETUP_VEHICLE_QUERY = "CREATE TABLE vehicles(id INTEGER PRIMARY KEY, license_plate_number VARCHAR(255) NOT NULL UNIQUE, person_id INTEGER)";
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        System.out.println("CREATING PEOPLE TABLE");
-        db.execSQL(SQL_SETUP_PERSON_QUERY);
-        System.out.println("CREATING USER TABLE");
-        db.execSQL(SQL_SETUP_USER_QUERY);
+        try{
+            System.out.println("CREATING PEOPLE TABLE");
+            db.execSQL(SQL_SETUP_PERSON_QUERY);
+            System.out.println("CREATING USER TABLE");
+            db.execSQL(SQL_SETUP_USER_QUERY);
+            System.out.println("CREATING VEHICLE TABLE");
+            db.execSQL(SQL_SETUP_VEHICLE_QUERY);
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            db.close();
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + PEOPLE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + USERS_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + VEHICLE_TABLE);
+
+        onCreate(db);
     }
 
     public DatabaseHelper(Context context) {
@@ -98,7 +111,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         boolean isSuccess = (countOnSucces > 0 && contentValuesList.size() == countOnSucces);
         db.close();
         return isSuccess;
-    }   
+    }
+
+    public Cursor searchTable(String tableName, String field_name, String search_data){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT * FROM "+ tableName + " WHERE " + field_name + " LIKE '%"+ search_data+"%'";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+
+        return cursor;
+    }
 
     public boolean validateLogin(String username, String password){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
@@ -108,6 +129,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }else{
             return false;
         }
+    }
+
+    public Cursor getLicensePlates(){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM vehicles", null);
+        return cursor;
     }
 
 }

@@ -1,12 +1,9 @@
 package sr.unasat.kpsfinetracker;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
-import android.app.AlertDialog;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -55,8 +52,8 @@ public class RegisterActivity extends Activity{
         });
 
 
-        registerBtn = (Button) findViewById(R.id.register_btn);
 
+        registerBtn = (Button) findViewById(R.id.register_btn);
         registerBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,16 +103,4 @@ public class RegisterActivity extends Activity{
         startActivity(Intent.createChooser(email, "Register"));
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        new AlertDialog.Builder(RegisterActivity.this)
-//                .setMessage("You will be contacted after we have verified your contact details")
-//                .setCancelable(false)
-//                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                })
-//                .show();
-//    }
 }
