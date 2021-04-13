@@ -45,8 +45,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(SQL_SETUP_VEHICLE_QUERY);
         } catch (Exception e) {
             System.out.println(e);
-        } finally {
-            db.close();
         }
     }
 
