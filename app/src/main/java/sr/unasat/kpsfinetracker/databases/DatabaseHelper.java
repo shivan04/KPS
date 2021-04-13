@@ -64,6 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             personContentValues.put("address", "NA");
             long personId = insertOneRecord(PEOPLE_TABLE, personContentValues);
 
+
             if (personId >= 1){
                 ContentValues userContentValues = new ContentValues();
                 userContentValues.put(USERS_USERNAME, "admin");
