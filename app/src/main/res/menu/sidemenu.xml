@@ -9,6 +9,10 @@
         android:title="Contact"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/weatherBtn"
+        android:orderInCategory="100"
+        android:title="Weather"
+        app:showAsAction="never"/>
 
     <item android:id="@+id/logoutBtn"
             android:orderInCategory="100"

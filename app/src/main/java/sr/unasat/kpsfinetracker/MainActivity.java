@@ -20,6 +20,7 @@ import sr.unasat.kpsfinetracker.activity.ContactActivity;
 import sr.unasat.kpsfinetracker.fragments.LicensePlateFragment;
 import sr.unasat.kpsfinetracker.fragments.MissingPersonsFragment;
 import sr.unasat.kpsfinetracker.fragments.MostWantedFragment;
+import sr.unasat.kpsfinetracker.rest.WeatherMainActivity;
 import sr.unasat.kpsfinetracker.services.MyService;
 
 public class MainActivity extends AppCompatActivity {
@@ -81,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.contactBtn:
                 onContact();
                 break;
+            case R.id.weatherBtn:
+                onWeather();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -99,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
     private void onContact() {
         Intent intent = new Intent(MainActivity.this, ContactActivity.class);
         startActivity(intent);
+    }
+    private void onWeather() {
+        Intent intentweather = new Intent(MainActivity.this, WeatherMainActivity.class);
+        startActivity(intentweather);
     }
 
 
