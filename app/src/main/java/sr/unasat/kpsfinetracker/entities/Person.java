@@ -3,26 +3,25 @@ package sr.unasat.kpsfinetracker.entities;
 import java.sql.Date;
 
 public class Person {
-    private long id;
+    private int id;
     private String lastname, firstname, id_number, email_address, phone_number, address;
     private Date dob;
 
-    public Person(long id, String lastname, String firstname, String id_number, Date dob, String email_address, String phone_number, String address) {
+    public Person(int id, String lastname, String firstname, String id_number, String email_address, String phone_number, String address) {
         this.id = id;
         this.lastname = lastname;
         this.firstname = firstname;
         this.id_number = id_number;
-        this.dob = dob;
         this.email_address = email_address;
         this.phone_number = phone_number;
         this.address = address;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -42,27 +41,27 @@ public class Person {
         this.firstname = firstname;
     }
 
-    public String getId_number() {
+    public String getIdNumber() {
         return id_number;
     }
 
-    public void setId_number(String id_number) {
+    public void setIdNumber(String id_number) {
         this.id_number = id_number;
     }
 
-    public String getEmail_address() {
+    public String getEmailAddress() {
         return email_address;
     }
 
-    public void setEmail_address(String email_address) {
+    public void setEmailAddress(String email_address) {
         this.email_address = email_address;
     }
 
-    public String getPhone_number() {
+    public String getPhoneNumber() {
         return phone_number;
     }
 
-    public void setPhone_number(String phone_number) {
+    public void setPhoneNumber(String phone_number) {
         this.phone_number = phone_number;
     }
 

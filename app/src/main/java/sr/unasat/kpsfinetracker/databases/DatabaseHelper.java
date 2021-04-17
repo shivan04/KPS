@@ -28,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String VEHICLE_LICENSE_PLATE = "license_plate_number";
 
 
-    private static final String SQL_SETUP_PERSON_QUERY = "CREATE TABLE people(id INTEGER PRIMARY KEY, lastname VARCHAR(255) NOT NULL, firstname VARCHAR(255) NOT NULL, id_number VARCHAR(255) NOT NULL, dob DATE , email_address VARCHAR(255) NOT NULL, phone_number VARCHAR(255) NOT NULL, address VARCHAR(255) NOT NULL)";
+    private static final String SQL_SETUP_PERSON_QUERY = "CREATE TABLE people(id INTEGER PRIMARY KEY, lastname VARCHAR(255) NOT NULL, firstname VARCHAR(255) NOT NULL, id_number VARCHAR(255) NOT NULL, dob DATE , email_address VARCHAR(255) , phone_number VARCHAR(255) , address VARCHAR(255))";
 
     private static final String SQL_SETUP_USER_QUERY = "CREATE TABLE users(id INTEGER PRIMARY KEY, username VARCHAR(255) NOT NULL UNIQUE, password VARCHAR(255) NOT NULL, station VARCHAR(255) NOT NULL, region VARCHAR(255) NOT NULL, district VARCHAR(255) NOT NULL, person_id INTEGER NOT NULL)";
 
@@ -93,7 +93,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public long insertOneRecord(String tableName, ContentValues contentValues){
         SQLiteDatabase db = getWritableDatabase();
         long rowId = db.insert(tableName, null, contentValues);
-        System.out.println("INSERT:"+ rowId);
+        db.close();
+        return rowId;
+    }
+
+    public long updateOneRecord(String tableName, ContentValues contentValues, String id ){
+        SQLiteDatabase db = getWritableDatabase();
+        long rowId = db.update(tableName, contentValues, "id = ?", new String[]{id});
         db.close();
         return rowId;
     }
@@ -128,11 +134,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+    public  Cursor getPerson(String personId){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM people WHERE ID = ?", new String[]{personId});
+        return cursor;
+    }
+    public  boolean checkPersonExist(String personId){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM people WHERE ID = ?", new String[]{personId});
+        return cursor.getCount() > 0;
+    }
+
+    public  boolean checkVehicleExist(String vehicleId){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM vehicles WHERE ID = ?", new String[]{vehicleId});
+        return cursor.getCount() > 0;
+    }
+
+    public Cursor getLicensePlate(String licensePlateNumber){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM vehicles WHERE license_plate_number = ?", new String[]{licensePlateNumber});
+        return cursor;
+    }
 
     public Cursor getLicensePlates(){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM vehicles", null);
         return cursor;
+    }
+
+    public void deleteLicensePlate(String vehicleId){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.delete(VEHICLE_TABLE, "id = ?", new String[]{vehicleId});
     }
 
 }

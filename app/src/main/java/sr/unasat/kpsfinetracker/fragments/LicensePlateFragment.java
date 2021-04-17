@@ -1,9 +1,13 @@
 package sr.unasat.kpsfinetracker.fragments;
 
+import sr.unasat.kpsfinetracker.LoginActivity;
 import sr.unasat.kpsfinetracker.R;
+import sr.unasat.kpsfinetracker.RegisterActivity;
+import sr.unasat.kpsfinetracker.activity.LicensePlateDetailsActivity;
 import sr.unasat.kpsfinetracker.databases.DatabaseHelper;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -54,6 +58,10 @@ public class LicensePlateFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String text = userListView.getItemAtPosition(position).toString();
                 Toast.makeText(getActivity(), ""+text, Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getActivity(), LicensePlateDetailsActivity.class);
+                intent.putExtra("LICENSE_PLATE_NUMBER", text);
+                startActivity(intent);
             }
         });
 
@@ -85,6 +93,7 @@ public class LicensePlateFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String license_plate_number = addDataTxt.getText().toString();
+                arrayList.clear();
                 if (!license_plate_number.equals("")) {
                     searchLicensePlates(license_plate_number);
                 } else {
@@ -100,10 +109,8 @@ public class LicensePlateFragment extends Fragment {
         Cursor cursor = dbHelper.searchTable("vehicles", "license_plate_number", search_data);
 
         if (cursor.getCount() == 0){
-            arrayList.clear();
             Toast.makeText(getActivity(), "No data to show", Toast.LENGTH_SHORT).show();
         } else {
-            arrayList.clear();
             while (cursor.moveToNext()){
                 arrayList.add(cursor.getString(1));
             }

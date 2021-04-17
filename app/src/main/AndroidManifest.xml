@@ -13,6 +13,7 @@
         android:theme="@style/Theme.KPSFineTracker">
         <activity android:name=".rest.WeatherMainActivity"></activity>
         <activity android:name=".activity.ContactActivity" />
+        <activity android:name=".activity.LicensePlateDetailsActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity">

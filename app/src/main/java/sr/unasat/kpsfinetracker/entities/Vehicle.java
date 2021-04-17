@@ -1,22 +1,20 @@
 package sr.unasat.kpsfinetracker.entities;
 
 public class Vehicle {
-    private long id;
+    private int id;
     private String license_plate_number, vehicle_type;
     private Person person;
 
-    public Vehicle(long id, String license_plate_number ,String vehicle_type, Person person) {
+    public Vehicle(int id, String license_plate_number) {
         this.id = id;
         this.license_plate_number = license_plate_number;
-        this.vehicle_type = vehicle_type;
-        this.person = person;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
