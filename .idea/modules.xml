@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KPS_Fine_Tracker.iml" filepath="$PROJECT_DIR$/.idea/modules/KPS_Fine_Tracker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KPS_Fine_Tracker.iml" filepath="$PROJECT_DIR$/.idea/modules/KPS_Fine_Tracker.iml" group="KPS_Fine_Tracker" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/KPS_Fine_Tracker.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/KPS_Fine_Tracker.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="KPS Fine Tracker/app" />
     </modules>
   </component>
 </project>

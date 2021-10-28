@@ -64,7 +64,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void setDefaultCredentials(){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM users WHERE username=? AND password=?", new String[]{"admin", "admin"});
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM users WHERE username=? AND password=?",
+                new String[]{"admin", "admin"});
         if(cursor.getCount() == 0){
             ContentValues personContentValues = new ContentValues();
             personContentValues.put("lastname", "Admin");
